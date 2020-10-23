@@ -14,5 +14,31 @@
 
 <body>
 
+    <div id="container">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Saldo</ion-card-title>
+            </ion-card-header>
+            <ion-card-content> 
+                {{saldo}}
+            </ion-card-content>
+        </ion-card>
 
+        <div class="row">
+            <h6>Usuario {{user.email}}</h6>
+        </div>
+        <section>
+            <ion-button id="carga" expand="block" color="warning" size="large" (click)="cargarSaldo()" shape="round" size="medium">
+                <ion-icon name="qr-code-outline"></ion-icon>Escanear QR
+            </ion-button>
+        </section>
+        <hr>
+        <div class="row">
+            <ion-button expand="block" color="tertiary" (click)="limpiar()" shape="round" size="medium">Limpiar</ion-button>
+        </div>
+        <hr>
+        <div class="row">
+            <ion-button expand="full" color="secondary" (click)="salir()" shape="round" size="medium">Salir</ion-button>
+        </div>        
+    </div>
 </body>
