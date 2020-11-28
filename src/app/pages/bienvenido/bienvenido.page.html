@@ -1,8 +1,8 @@
 <ion-header [translucent]="true" class="header">
     <ion-toolbar color='primary'>
         <ion-buttons slot="secondary">
-            <ion-button>
-                <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+            <ion-button (click)="salir()">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
         <ion-buttons slot="start">
@@ -15,6 +15,14 @@
 <body>
 
     <div id="container">
+        <ion-card color="primary" class="user">
+            <ion-card-header>
+                <ion-card-title >Bienvenido</ion-card-title>
+            </ion-card-header>
+            <ion-card-content> 
+                {{user.email}}
+            </ion-card-content>
+        </ion-card>
         <ion-card>
             <ion-card-header>
                 <ion-card-title>Saldo</ion-card-title>
@@ -23,10 +31,10 @@
                 {{saldo}}
             </ion-card-content>
         </ion-card>
-
+<!-- 
         <div class="row">
-            <h6>Usuario {{user.email}}</h6>
-        </div>
+            <div id="usuario"><h6>Usuario {{user.email}}</h6></div>
+        </div> -->
         <section>
             <ion-button id="carga" expand="block" color="warning" size="large" (click)="cargarSaldo()" shape="round" size="medium">
                 <ion-icon name="qr-code-outline"></ion-icon>Escanear QR
@@ -37,8 +45,8 @@
             <ion-button expand="block" color="tertiary" (click)="limpiar()" shape="round" size="medium">Limpiar</ion-button>
         </div>
         <hr>
-        <div class="row">
-            <ion-button expand="full" color="secondary" (click)="salir()" shape="round" size="medium">Salir</ion-button>
-        </div>        
+        <ion-item class="transparente">
+            <ion-label>{{mensaje}}</ion-label>
+        </ion-item>  
     </div>
 </body>

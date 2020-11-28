@@ -1,5 +1,5 @@
 body {
-    background: url('../../../assets/fondos/bienvenido.jpg') no-repeat center center / cover;
+    background: url('../../../assets/img/MoneyBlue1.jpg') no-repeat center center / cover;
 }
 
 
@@ -30,3 +30,20 @@ body {
 }
 
 
+
+#usuario {
+    background-color: rgba(255, 145, 0, 0.534);
+    flex: content;
+}
+
+#carga {
+    height: 50px;
+}
+
+.transparente {
+    background-color: rgba(40, 129, 246, 0.418);
+}
+
+.user {
+    color: black;
+}

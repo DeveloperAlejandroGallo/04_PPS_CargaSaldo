@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class FirecloudService {
 
   constructor(private fireStore: AngularFirestore) { }
-  readonly collectionName = 'saldos';
+  readonly collectionName = 'usuarios';
 
   LeerUsuarios()  {
     return this.fireStore.collection(this.collectionName).snapshotChanges();
@@ -20,18 +20,18 @@ export class FirecloudService {
   }
 
   public nuevaCarga(user: string, monto: Array<number>) {
-    let creditos = this.fireStore.collection(this.collectionName).doc(user);
-
+    let creditos = this.fireStore.collection('creditos').doc(user);
     // Set the "capital" field of the city 'DC'
-    return creditos.update({
+    console.log(creditos);
+    return creditos.set({
       cargas: monto
     })
     .then(function() {
-      console.log("Document successfully updated!");
+      console.log("Documento Actualizado!");
     })
     .catch(function(error) {
       // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
+      console.error("Error actualizando doc: ", error);
     });
 
   }

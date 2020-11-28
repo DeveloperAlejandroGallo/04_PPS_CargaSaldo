@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 // back button
 import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+
 const { App } = Plugins;
 
 
@@ -17,17 +19,30 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private nativeAudio: NativeAudio
   ) {
-    this.setAndroidBackButtonBehavior(); // inicializa el observable
     this.initializeApp();
   }
-
+ 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.statusBar.overlaysWebView(false);
       this.splashScreen.hide();
+      this.statusBar.overlaysWebView(false);
+      this.setAndroidBackButtonBehavior(); // inicializa el observable
+
+      this.nativeAudio.preloadSimple('splashAudio','assets/sound/splash.mp3').then(onSuccess=>{
+
+        this.nativeAudio.play('splashAudio').then(onSuccess=>{
+          console.log( 'Reproduciendo: splashAudio');
+        }, onError=>{
+          console.error('Fallo al reproducir splashAudio error: ' + onError);
+        });
+      }, onError=>{
+        console.error('Fallo al cargar splashAudio - error: '+ onError);
+      });
+
     });
   }
   // Evita la vuelta atrás.
@@ -40,4 +55,5 @@ export class AppComponent {
       }
     });
   }
+
 }

@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
     StatusBar,
     SplashScreen,
     BarcodeScanner,
+    NativeAudio,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

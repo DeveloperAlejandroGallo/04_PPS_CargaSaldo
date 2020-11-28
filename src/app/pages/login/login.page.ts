@@ -24,7 +24,11 @@ export class LoginPage implements OnInit {
     private platform: Platform
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clave = '';
+    this.correo = '';
+    this.mensaje = '';
+  }
 
   loguear(user: string) {
     switch (user) {
@@ -66,7 +70,7 @@ export class LoginPage implements OnInit {
         this.authServise
           .logueoConEmailYClave(this.correo, this.clave)
           .then((resp) => {
-            this.mensaje = 'Bienvenido';
+            this.ngOnInit();
             this.router.navigate(['/bienvenido']);
           })
           .catch((error) => {
@@ -79,7 +83,7 @@ export class LoginPage implements OnInit {
                 this.mensaje = 'Clave incorrecta';
                 break;
               case 'auth/user-not-found':
-                this.mensaje = 'El correo no existe.';
+                this.mensaje = 'El usuario no existe.';
                 break;
               default:
                 this.mensaje = error.message;
@@ -89,7 +93,7 @@ export class LoginPage implements OnInit {
         this.mensaje = 'Por favor ingrese una clave';
       }
     } else {
-      this.mensaje = 'Por favor ingrese un correo valido';
+      this.mensaje = 'Por favor ingrese un correo v\u00E1lido';
     }
   }
 
@@ -112,7 +116,7 @@ export class LoginPage implements OnInit {
             this.mensaje = 'Correo ya registrado';
             break;
           case 'auth/invalid-email':
-            this.mensaje = 'Correo con formato invalido';
+            this.mensaje = 'Correo con formato inv\u00E1lido';
             break;
           case 'auth/argument-error':
             this.mensaje = 'Correo con debe ser una cadena v\u00E1lida';

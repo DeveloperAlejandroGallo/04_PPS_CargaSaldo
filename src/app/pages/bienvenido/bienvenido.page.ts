@@ -15,6 +15,7 @@ export class BienvenidoPage implements OnInit {
   creditosUsuario: Array<number>;
   esAdmin: boolean;
   saldo: number;
+  mensaje: string;
 
 
   constructor(private firecloud: FirecloudService,
@@ -24,8 +25,8 @@ export class BienvenidoPage implements OnInit {
 
       fireAuth.currentUser().then(resp => {
         if (resp != null)
-        this.user.email = resp.email;
-  
+          this.user.email = resp.email;
+        
         firecloud.readCollection('creditos').subscribe((res: any) => {
           this.creditosUsuario = [];
           for (let index = 0; index < res.length; index++) {
@@ -34,17 +35,13 @@ export class BienvenidoPage implements OnInit {
               if (resp.email == 'admin@admin.com')
                 this.esAdmin = true;
               this.creditosUsuario = monto.payload.doc.data().cargas;
-              this.calcularCreditoTotal();
-  
             }
           }
-  
+          this.calcularCreditoTotal();    
         });
-  
       }).catch(error => {
-  
-      });                
-
+          console.error(error);
+      });            
   }
   title = 'Carga de Saldo';
   ngOnInit() {
@@ -52,7 +49,9 @@ export class BienvenidoPage implements OnInit {
     this.saldo = 0;
   }
 
-  public calcularCreditoTotal() {
+  private calcularCreditoTotal() {
+    console.log(this.creditosUsuario);
+    this.saldo = 0;
     this.creditosUsuario.forEach(monto => {
       this.saldo += monto;
     });
@@ -62,27 +61,39 @@ export class BienvenidoPage implements OnInit {
   cargarSaldo() {
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
-      alert(barcodeData.text);
-      switch(barcodeData.text) {
-        case '8c95def646b6127282ed50454b73240300dccabc':
-          this.creditosUsuario.push(10);
-          break;
-        case 'ae338e4e0cbb4e4bcffaf9ce5b409feb8edd5172':
-          this.creditosUsuario.push(50);
-          break;
-        case '2786f4877b9091dcad7f35751bfcf5d5ea712b2f':
-          this.creditosUsuario.push(100);
-          break;
-      }
+
+        let aCargar = 0;
+        switch(barcodeData.text) {
+          case '8c95def646b6127282ed50454b73240300dccabc':
+              aCargar = 10;
+            break;
+            case 'ae338e4e0cbb4e4bcffaf9ce5b409feb8edd5172':
+              aCargar = 50;
+              break;
+              case '2786f4877b9091dcad7f35751bfcf5d5ea712b2f':
+                aCargar = 100;
+                break;
+              }
+              //verificar si a cargar existe con filter y hacerle el count con 1 para todos menos adm q es 2
+              let cant = this.creditosUsuario.filter(elem => elem == aCargar).length;
+              if (cant == 0 || (this.esAdmin && cant == 1)) {
+                this.creditosUsuario.push(aCargar);
+              }
+              else 
+              {
+                this.mensaje = 'Cargar ya realizada';
+              }
      }).catch(err => {
          console.log('Error', err);
+        //  alert('ERROR:' + err);
      });
-     
+    // alert('Guardando carga' + this.creditosUsuario[0]); 
     this.firecloud.nuevaCarga(this.user.email, this.creditosUsuario);
   }
 
   public limpiar() {
-    
+    this.creditosUsuario = [];
+    this.firecloud.nuevaCarga(this.user.email, this.creditosUsuario);
   }
 
   public salir() {
